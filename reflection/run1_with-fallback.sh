@@ -12,7 +12,7 @@ pushd ${TARGET} >/dev/null
 # Warning: Reflection method java.lang.Class.getDeclaredMethod invoked at ReflectionCaller.main(ReflectionCaller.java:22)
 # Warning: Aborting stand-alone image build due to reflection use without configuration.
 #
-$GRAALVM_HOME/bin/native-image -H:+ReportExceptionStackTraces ReflectionCaller reflectionCallerWithFallback
+$GRAALVM_HOME/bin/native-image --force-fallback -H:+ReportExceptionStackTraces ReflectionCaller reflectionCallerWithFallback
 
 # -----------------------------------------------------------------------------------------------------------------
 
