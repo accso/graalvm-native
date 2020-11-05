@@ -12,4 +12,4 @@ mkdir -p ${TARGET}
 # -----------------------------------------------------------------------------------------------------------------
 
 # create native-image
-./mvnw clean package -P NATIVE_IMAGE
+./mvnw package -P NATIVE_IMAGE
