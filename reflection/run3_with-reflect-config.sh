@@ -21,7 +21,7 @@ ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-merge-dir=./META-IN
 
 # create native-image with explicit reflection configuration
 
-$GRAALVM_HOME/bin/native-image --no-fallback ReflectionCaller reflectionCallerWithExplicitConfiguration
+$GRAALVM_HOME/bin/native-image --no-fallback -H:ReflectionConfigurationResources=./META-INF/native-image/reflect-config.json ReflectionCaller reflectionCallerWithExplicitConfiguration
 
 # -----------------------------------------------------------------------------------------------------------------
 
