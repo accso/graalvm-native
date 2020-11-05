@@ -63,6 +63,6 @@ public class MandelbrotToPNGFile {
         File file = new File(filename);
 
         ImageIO.write(image, "png", file);
-        System.out.println("Created new mandelbrot file " + file.getCanonicalFile().getName());
+        System.out.println("Created new mandelbrot file " + file.getCanonicalFile().getName() + " in " + tmpDir);
     }
 }

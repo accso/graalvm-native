@@ -1,3 +1,12 @@
-time java -cp target FileFinder $1 $2 $3
-time ./target/filefinder $1 $2 $3
-time ./target/filefinderWithJS $1 $2 $3
+DIR=.
+PATTERN="*.java"
+
+if [ $# -gt 0 ]
+then
+   DIR=${1}
+   PATTERN="${2}"
+fi
+
+time java -cp target FileFinder ${DIR} -name ${PATTERN}
+time ./target/filefinder        ${DIR} -name ${PATTERN}
+time ./target/filefinderWithJS  ${DIR} -name ${PATTERN}

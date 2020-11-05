@@ -147,7 +147,7 @@
                                             in order to build the image
                             -->
                             <buildArgs>
-                                --no-server
+                                --no-server --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces 
                             </buildArgs>
                         </configuration>
                     </plugin>

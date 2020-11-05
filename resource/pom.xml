@@ -147,7 +147,7 @@
                                             in order to build the image
                             -->
                             <buildArgs>
-                                --no-fallback --no-server -H:ResourceConfigurationFiles=META-INF/native-image/resource-config.json
+                                --no-fallback --no-server -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces -H:ResourceConfigurationFiles=META-INF/native-image/resource-config.json 
                             </buildArgs>
                         </configuration>
                     </plugin>
