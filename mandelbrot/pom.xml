@@ -9,8 +9,12 @@
   <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<graalvm.version>20.2.0</graalvm.version>
-	<app.main.class>MandelbrotInMemory</app.main.class>
-	<exe.file.name>mandelbrot</exe.file.name>
+	
+	<app.inMemory.main.class>MandelbrotInMemory</app.inMemory.main.class>
+	<exe.inMemory.file.name>mandelbrotInMemory</exe.inMemory.file.name>
+
+	<app.toPNG.main.class>MandelbrotToPNGFile</app.toPNG.main.class>
+	<exe.toPNG.file.name>mandelbrotToPNGFile</exe.toPNG.file.name>
   </properties>
 
   <dependencies>
@@ -23,11 +27,17 @@
   </dependencies>
 
     <profiles>
+        <!-- ######################################################################################################### 
+		
+		Profiles for the app which creates Mandelbrot only in memory (without creating any image files)
+		
+		-->
+
         <!-- This is the profile for running the JIT version of the app.
-             $ mvn clean package exec:exec -PJAVA
+             $ mvn clean package exec:exec -PJAVA_inMemory
         -->
         <profile>
-            <id>JAVA</id>
+            <id>JAVA_inMemory</id>
             <build>
                 <!-- Compiler -->
                 <plugins>
@@ -50,7 +60,7 @@
                                 <archive>
                                 <manifest>
                                     <!-- Specify the main class -->
-                                    <mainClass>${app.main.class}</mainClass>
+                                    <mainClass>${app.inMemory.main.class}</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -74,7 +84,7 @@
                             <arguments>
                                 <argument>-classpath</argument>
                                 <classpath />
-                                <argument>${app.main.class}</argument>
+                                <argument>${app.inMemory.main.class}</argument>
                             </arguments>
                         </configuration>
                     </plugin>
@@ -83,10 +93,10 @@
         </profile>
 
         <!-- This is the profile for generating the native image.
-             $ mvn clean package exec:exec -PNATIVE_IMAGE
+             $ mvn clean package exec:exec -PNATIVE_IMAGE_inMemory
         -->
         <profile>
-            <id>NATIVE_IMAGE</id>
+            <id>NATIVE_IMAGE_inMemory</id>
             <build>
                 <plugins>
                     <!-- Compiler -->
@@ -109,7 +119,7 @@
                                 <archive>
                                 <manifest>
                                     <!-- Specify the main class -->
-                                    <mainClass>${app.main.class}</mainClass>
+                                    <mainClass>${app.inMemory.main.class}</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -140,7 +150,7 @@
                             <!-- Set this to true if you need to switch this off -->
                             <skip>false</skip>
                             <!-- The output name for the executable -->
-                            <imageName>${exe.file.name}</imageName>
+                            <imageName>${exe.inMemory.file.name}</imageName>
                             <!-- Set any parameters we need to pass to the native-image tool.
                                 no-fallback : create a native image that doesn't fall back to the JVM
                                 no-server : don't start a build server, which you then just need to shut down,
@@ -154,5 +164,146 @@
                 </plugins>
             </build>
         </profile>
+
+        <!-- ######################################################################################################### 
+		
+		Profiles for the app which creates MandelbrotToPNG (creating a PNG file)
+		Note: Native-Image can be compiled but dies with a runtime error (as awt not available at runtime).
+		Excepted to be fixed with a newer GraalVM version, potentially with version 20.3.
+		
+		-->
+
+        <!-- This is the profile for running the JIT version of the app.
+             $ mvn clean package exec:exec -PJAVA_toPNG
+        -->
+        <profile>
+            <id>JAVA_toPNG</id>
+            <build>
+                <!-- Compiler -->
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.0</version>
+                        <configuration>
+                            <source>11</source>
+                            <target>11</target>
+                        </configuration>
+                    </plugin>
+                    <!-- Package -->
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                                <archive>
+                                <manifest>
+                                    <!-- Specify the main class -->
+                                    <mainClass>${app.toPNG.main.class}</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Run the app, quick way of testing the Java version -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2</version>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath />
+                                <argument>${app.toPNG.main.class}</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- This is the profile for generating the native image.
+             $ mvn clean package exec:exec -PNATIVE_IMAGE_toPNG
+        -->
+        <profile>
+            <id>NATIVE_IMAGE_toPNG</id>
+            <build>
+                <plugins>
+                    <!-- Compiler -->
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.0</version>
+                        <configuration>
+                            <source>11</source>
+                            <target>11</target>
+                        </configuration>
+                    </plugin>
+                    <!-- Package -->
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                                <archive>
+                                <manifest>
+                                    <!-- Specify the main class -->
+                                    <mainClass>${app.toPNG.main.class}</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Native Image -->
+                    <plugin>
+                        <groupId>org.graalvm.nativeimage</groupId>
+                        <artifactId>native-image-maven-plugin</artifactId>
+                        <version>${graalvm.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>native-image</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!-- Set this to true if you need to switch this off -->
+                            <skip>false</skip>
+                            <!-- The output name for the executable -->
+                            <imageName>${exe.toPNG.file.name}</imageName>
+                            <!-- Set any parameters we need to pass to the native-image tool.
+                                no-fallback : create a native image that doesn't fall back to the JVM
+                                no-server : don't start a build server, which you then just need to shut down,
+                                            in order to build the image
+                            -->
+                            <buildArgs>
+                                --no-server --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces 
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 </project>
