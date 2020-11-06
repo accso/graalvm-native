@@ -14,9 +14,9 @@ pushd ${TARGET} >/dev/null
 #        at java.lang.Class.forName(DynamicHub.java:1214)
 #        at ReflectionCaller.main(ReflectionCaller.java:19)
 
-./reflectionCallerWithoutFallback StringManipulator reverse    "hello"
+time ./reflectionCallerWithoutFallback StringManipulator reverse    "hello"
 
-./reflectionCallerWithoutFallback StringManipulator capitalize "world"
+time ./reflectionCallerWithoutFallback StringManipulator capitalize "world"
 
 # -----------------------------------------------------------------------------------------------------------------
 

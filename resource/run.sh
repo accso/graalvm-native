@@ -5,7 +5,7 @@ TARGET=./target
 
 pushd ${TARGET} >/dev/null 
 
-./resourceloader
+time ./resourceloader
 
 # -----------------------------------------------------------------------------------------------------------------
 
