@@ -15,7 +15,7 @@ all() {
 
 ./showversion.sh
 
-for dir in filefinder mandelbrot printproperties reflection resource;
+for dir in helloworld filefinder mandelbrot printproperties reflection resource quarkus-timeserver;
 do
     all
 done
