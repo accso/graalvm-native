@@ -6,7 +6,7 @@ TARGET=./target
 
 mkdir -p ${TARGET}
 
-$GRAALVM_HOME/bin/javac -d ${TARGET} ${SRC}/ReflectionCaller.java
+${GRAALVM_HOME}/bin/javac -d ${TARGET} ${SRC}/ReflectionCaller.java
 
 # -----------------------------------------------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ pushd ${TARGET} >/dev/null
 # Warning: Reflection method java.lang.Class.getDeclaredMethod invoked at ReflectionCaller.main(ReflectionCaller.java:22)
 # Warning: Aborting stand-alone image build due to reflection use without configuration.
 #
-$GRAALVM_HOME/bin/native-image --force-fallback -H:+ReportExceptionStackTraces -H:+PrintAnalysisCallTree ReflectionCaller reflectionCallerWithFallback 
+${GRAALVM_HOME}/bin/native-image --force-fallback -H:+ReportExceptionStackTraces -H:+PrintAnalysisCallTree ReflectionCaller reflectionCallerWithFallback 
 
 # -----------------------------------------------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ $GRAALVM_HOME/bin/native-image --force-fallback -H:+ReportExceptionStackTraces -
 # Warning: Aborting stand-alone image build due to reflection use without configuration.
 # Warning: Use -H:+ReportExceptionStackTraces to print stacktrace of underlying exception
 #
-$GRAALVM_HOME/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces ReflectionCaller reflectionCallerWithoutFallback
+${GRAALVM_HOME}/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces ReflectionCaller reflectionCallerWithoutFallback
 
 # -----------------------------------------------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-merge-dir=./META-IN
 
 # create native-image with explicit reflection configuration
 
-$GRAALVM_HOME/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces -H:ReflectionConfigurationResources=./META-INF/native-image/reflect-config.json ReflectionCaller reflectionCallerWithExplicitConfiguration
+${GRAALVM_HOME}/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces -H:ReflectionConfigurationResources=./META-INF/native-image/reflect-config.json ReflectionCaller reflectionCallerWithExplicitConfiguration
 
 # -----------------------------------------------------------------------------------------------------------------
 
