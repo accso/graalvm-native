@@ -13,7 +13,7 @@ all() {
     echo " "
 }
 
-for dir in helloworld filefinder mandelbrot printproperties reflection resource quarkus-timeserver;
+for dir in helloworld filefinder mandelbrot printproperties reflection resource quarkus-timeserver staticinit;
 do
     all
 done
