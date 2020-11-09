@@ -22,7 +22,7 @@ pushd ${TARGET} >/dev/null
 # Warning: Aborting stand-alone image build due to reflection use without configuration.
 #
 ${GRAALVM_HOME}/bin/native-image --force-fallback \
-        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \ 
+        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		ReflectionCaller reflectionCallerWithFallback 
 
 echo "---------------------------------------------------------------------------------------"
