@@ -20,7 +20,7 @@ ${GRAALVM_HOME}/bin/native-image --no-fallback \
 # -----------------------------------------------------------------------------------------------------------------
 
 # create native-image without any flag set at build time
-${GRAALVM_HOME}/bin/native-image --no-fallback 
+${GRAALVM_HOME}/bin/native-image --no-fallback \
         -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		PrintProperties printPropertiesWithoutBuildTime
 
