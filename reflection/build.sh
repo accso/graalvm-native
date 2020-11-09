@@ -23,6 +23,8 @@ pushd ${TARGET} >/dev/null
 #
 ${GRAALVM_HOME}/bin/native-image --force-fallback -H:+ReportExceptionStackTraces -H:+PrintAnalysisCallTree ReflectionCaller reflectionCallerWithFallback 
 
+echo "---------------------------------------------------------------------------------------"
+
 # -----------------------------------------------------------------------------------------------------------------
 
 # create native-image without fallback
@@ -34,6 +36,8 @@ ${GRAALVM_HOME}/bin/native-image --force-fallback -H:+ReportExceptionStackTraces
 # Warning: Use -H:+ReportExceptionStackTraces to print stacktrace of underlying exception
 #
 ${GRAALVM_HOME}/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces ReflectionCaller reflectionCallerWithoutFallback
+
+echo "---------------------------------------------------------------------------------------"
 
 # -----------------------------------------------------------------------------------------------------------------
 
@@ -48,10 +52,7 @@ ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./META-I
 # ... and then append to it in the second run (note: "merge-dir")
 ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-merge-dir=./META-INF/native-image  ReflectionCaller StringManipulator capitalize "world"
 
-# -----------------------------------------------------------------------------------------------------------------
-
 # create native-image with explicit reflection configuration
-
 ${GRAALVM_HOME}/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces -H:ReflectionConfigurationResources=./META-INF/native-image/reflect-config.json ReflectionCaller reflectionCallerWithExplicitConfiguration
 
 # -----------------------------------------------------------------------------------------------------------------
