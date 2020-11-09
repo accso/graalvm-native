@@ -14,11 +14,15 @@ pushd ${TARGET} >/dev/null
 # -----------------------------------------------------------------------------------------------------------------
 
 # create native-image
-${GRAALVM_HOME}/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces  FileFinder filefinder
+${GRAALVM_HOME}/bin/native-image --no-fallback \
+        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
+		FileFinder filefinder
 
 # -----------------------------------------------------------------------------------------------------------------
 
 # create native-image
-${GRAALVM_HOME}/bin/native-image --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces  FileFinderWithJS --language:js filefinderWithJS
+${GRAALVM_HOME}/bin/native-image --no-fallback \
+        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
+		FileFinderWithJS --language:js filefinderWithJS
 
 popd >/dev/null

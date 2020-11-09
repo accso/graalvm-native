@@ -21,7 +21,9 @@ pushd ${TARGET} >/dev/null
 # Warning: Reflection method java.lang.Class.getDeclaredMethod invoked at ReflectionCaller.main(ReflectionCaller.java:22)
 # Warning: Aborting stand-alone image build due to reflection use without configuration.
 #
-${GRAALVM_HOME}/bin/native-image --force-fallback -H:+ReportExceptionStackTraces -H:+PrintAnalysisCallTree DynamicProxyMain dynamicProxyWithFallback 
+${GRAALVM_HOME}/bin/native-image --force-fallback \
+        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
+		DynamicProxyMain dynamicProxyWithFallback 
 
 echo "---------------------------------------------------------------------------------------"
 
@@ -29,7 +31,9 @@ echo "--------------------------------------------------------------------------
 
 # create native-image without fallback
 
-${GRAALVM_HOME}/bin/native-image --no-fallback -H:+ReportExceptionStackTraces -H:+PrintAnalysisCallTree DynamicProxyMain dynamicProxyWithoutFallback
+${GRAALVM_HOME}/bin/native-image --no-fallback \
+        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
+		DynamicProxyMain dynamicProxyWithoutFallback
 
 echo "---------------------------------------------------------------------------------------"
 
@@ -45,10 +49,10 @@ ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./META-I
 
 # create native-image with explicit proxy configuration
 ${GRAALVM_HOME}/bin/native-image --no-fallback \
-          -H:+ReportExceptionStackTraces -H:+PrintAnalysisCallTree \
-          -H:DynamicProxyConfigurationResources=./META-INF/native-image/proxy-config.json \
-		  -H:ReflectionConfigurationResources=./META-INF/native-image/reflect-config.json \
-		  DynamicProxyMain dynamicProxyWithExplicitConfiguration
+        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
+        -H:DynamicProxyConfigurationResources=./META-INF/native-image/proxy-config.json \
+		-H:ReflectionConfigurationResources=./META-INF/native-image/reflect-config.json \
+		DynamicProxyMain dynamicProxyWithExplicitConfiguration
 
 # -----------------------------------------------------------------------------------------------------------------
 
