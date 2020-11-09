@@ -4,8 +4,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import static java.nio.file.FileVisitResult.*;
-import static java.nio.file.FileVisitOption.*;
-import java.util.*;
 
 public class FileFinderWithJS {
     public static void main(String[] args) throws IOException { 
