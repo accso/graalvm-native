@@ -1,4 +1,4 @@
-# graalvm-native static initialization example
+# graalvm-native, example 'staticinit'
 GraalVM Examples, Native Image static initialization
 
 This example shows the behaviour of system properties in combination with static initialization and the build time initialization feature of native images. It prints:
