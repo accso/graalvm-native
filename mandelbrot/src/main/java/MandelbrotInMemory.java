@@ -27,6 +27,7 @@ public class MandelbrotInMemory {
                 double theta = (((double)m)/50*Math.PI*2);
                 image.setRGB(i, j, getColorValue(theta));
             }
+            if (i%100 == 0) System.out.print(i + "... ");
         }
         return image;
     }
