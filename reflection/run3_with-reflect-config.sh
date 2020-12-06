@@ -1,6 +1,8 @@
 SRC=./src
 TARGET=./target 
 
+which java
+
 pushd ${TARGET} >/dev/null 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -11,7 +13,7 @@ time ./reflectionCallerWithExplicitConfiguration StringManipulator reverse    "h
 
 time ./reflectionCallerWithExplicitConfiguration StringManipulator capitalize "world"
 
-# does not work, as such a method is not available
+# runtime error - does not work, as such a method is not available
 time ./reflectionCallerWithExplicitConfiguration StringManipulator whatever "else"
 
 # -----------------------------------------------------------------------------------------------------------------

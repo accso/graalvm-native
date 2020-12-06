@@ -1,6 +1,8 @@
 SRC=./src
 TARGET=./target
 
+which java
+
 # -----------------------------------------------------------------------------------------------------------------
 # app which creates Mandelbrot only in memory (without creating any image files)
 

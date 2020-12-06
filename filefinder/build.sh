@@ -1,13 +1,15 @@
 SRC=./src
 TARGET=./target
 
+which java
+
 # -----------------------------------------------------------------------------------------------------------------
 # compile
 
 mkdir -p ${TARGET}
 
-${GRAALVM_HOME}/bin/javac -d ${TARGET} ${SRC}/FileFinder.java
-${GRAALVM_HOME}/bin/javac -d ${TARGET} ${SRC}/FileFinderWithJS.java
+javac -d ${TARGET} ${SRC}/FileFinder.java
+javac -d ${TARGET} ${SRC}/FileFinderWithJS.java
 
 pushd ${TARGET} >/dev/null
 

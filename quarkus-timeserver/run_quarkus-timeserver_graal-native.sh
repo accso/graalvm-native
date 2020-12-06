@@ -7,8 +7,8 @@ which java
 
 pushd ${TARGET} >/dev/null 
 
-time ./resourceloader
+time ./timeserver-1.0.0-SNAPSHOT-runner
 
 # -----------------------------------------------------------------------------------------------------------------
 
-popd >/dev/null
+popd >/dev/null 

@@ -1,1 +1,4 @@
 log/
+switch_adopt-open-jdk-11.sh
+switch_graal-ce-20.3.0-java11.sh
+switch_graal-ee-20.3.0-java11.sh

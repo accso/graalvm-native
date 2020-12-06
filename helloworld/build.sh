@@ -1,12 +1,14 @@
 SRC=./src
 TARGET=./target
 
+which java
+
 # -----------------------------------------------------------------------------------------------------------------
 # compile
 
 mkdir -p ${TARGET}
 
-${GRAALVM_HOME}/bin/javac -d ${TARGET} ${SRC}/HelloWorld.java
+javac -d ${TARGET} ${SRC}/HelloWorld.java
 
 pushd ${TARGET} >/dev/null
 
