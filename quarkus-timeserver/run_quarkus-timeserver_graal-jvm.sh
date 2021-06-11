@@ -1,5 +1,5 @@
 SRC=./src
-TARGET=./target
+TARGET=./target/quarkus-app
 
 which java
 
@@ -7,7 +7,7 @@ which java
 
 pushd ${TARGET} >/dev/null 
 
-java -jar ./timeserver-1.0.0-SNAPSHOT-runner.jar
+java -jar ./quarkus-run.jar
 
 # -----------------------------------------------------------------------------------------------------------------
 

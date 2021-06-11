@@ -8,7 +8,7 @@
   
   <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<graalvm.version>20.3.0</graalvm.version>
+	<graalvm.version>21.1.0</graalvm.version>
 	<app.main.class>ResourceLoader</app.main.class>
 	<exe.file.name>resourceloader</exe.file.name>
   </properties>
