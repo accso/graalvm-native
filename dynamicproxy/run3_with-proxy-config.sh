@@ -7,7 +7,7 @@ pushd ${TARGET} >/dev/null
 
 # -----------------------------------------------------------------------------------------------------------------
 
-# run the native-image, now backed up by the proxy-config file
+echo "3) run the native-image, now backed up by the proxy-config file"
 
 time ./dynamicProxyWithExplicitConfiguration
 
