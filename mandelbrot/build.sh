@@ -4,7 +4,7 @@ TARGET=./target
 which java
 
 # -----------------------------------------------------------------------------------------------------------------
-# app which creates Mandelbrot only in memory (without creating any image files)
+# creates Mandelbrot only in memory (without creating any image files)
 
 mkdir -p ${TARGET}
 
@@ -17,7 +17,7 @@ mkdir -p ${TARGET}
 ./mvnw package -P NATIVE_IMAGE_inMemory
 
 # -----------------------------------------------------------------------------------------------------------------
-# app which creates MandelbrotToPNG (creating a PNG file)
+# creates MandelbrotToPNG (creating a PNG file)
 
 mkdir -p ${TARGET}
 

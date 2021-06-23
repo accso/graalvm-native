@@ -7,10 +7,9 @@ which java
 
 pushd ${TARGET} >/dev/null 
 
-# run in memory for different scaling factors
 for factor in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 do 
-  echo "Factor is now: $factor"
+  echo "4) runs graal in native-image mode in loop, in memory, for factor $factor"
   time ./mandelbrotInMemory $factor
   echo " "
 done

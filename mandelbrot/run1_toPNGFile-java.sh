@@ -7,7 +7,8 @@ which java
 
 pushd ${TARGET} >/dev/null 
 
-# create PNG file in /tmp
+echo "1) runs graal in jvm mode, creating mandelbrot PNG file in /tmp"
+
 time java -Djava.io.tmpdir=/tmp -cp classes MandelbrotToPNGFile
 
 # -----------------------------------------------------------------------------------------------------------------
