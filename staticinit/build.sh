@@ -14,13 +14,18 @@ pushd ${TARGET} >/dev/null
 
 # -----------------------------------------------------------------------------------------------------------------
 
-# create native-image, set a build-time property with -D
-${GRAALVM_HOME}/bin/native-image --no-fallback -Dcustom.property=buildtime \
+echo "1) create native-image, set a build-time property with -D"
+
+${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \
+         --no-fallback \
          -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		 StaticInitialization static-init
-		 
-# create the same native image, initializing *all* classes at build time
-${GRAALVM_HOME}/bin/native-image --initialize-at-build-time --no-fallback -Dcustom.property=buildtime \
+
+
+echo "2) create native image, same build-time property but this time initializing *all* classes at build time"
+
+${GRAALVM_HOME}/bin/native-image --initialize-at-build-time -Dcustom.property=buildtime \
+         --no-fallback \
          -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		 StaticInitialization static-init-buildtime
 

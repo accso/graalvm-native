@@ -7,14 +7,14 @@ pushd ${TARGET} >/dev/null
 
 # -----------------------------------------------------------------------------------------------------------------
 
-# run the native-image, now backed up by the reflect-config file
+echo "3) run the native-image, now backed up by the reflect-config file"
 
 time ./reflectionCallerWithExplicitConfiguration StringManipulator reverse    "hello"
 
 time ./reflectionCallerWithExplicitConfiguration StringManipulator capitalize "world"
 
-# runtime error - does not work, as such a method is not available
-time ./reflectionCallerWithExplicitConfiguration StringManipulator whatever "else"
+# runtime error - does not work, as such a method "some" is not available
+./reflectionCallerWithExplicitConfiguration StringManipulator some "thing"
 
 # -----------------------------------------------------------------------------------------------------------------
 

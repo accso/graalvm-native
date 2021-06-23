@@ -14,9 +14,9 @@ javac -d ${TARGET} ${SRC}/ReflectionCaller.java
 
 pushd ${TARGET} >/dev/null 
 
-# -----------------------------------------------------------------------------------------------------------------
+echo "-----------------------------------------------------------------------------------------------------------------"
 
-# create native-image with fallback by default (might want to use --force-fallback)
+echo "1) create native-image with fallback by default (might want to use --force-fallback)"
 
 # Compiler Warnings as follows:
 # Warning: Reflection method java.lang.Class.forName invoked at ReflectionCaller.main(ReflectionCaller.java:21)
@@ -29,30 +29,25 @@ ${GRAALVM_HOME}/bin/native-image \
 
 echo "-----------------------------------------------------------------------------------------------------------------"
 
-# create native-image without fallback
+echo "2) create native-image without fallback"
 
-# Compiler Warnings as follows:
-# Warning: Reflection method java.lang.Class.forName invoked at ReflectionCaller.main(ReflectionCaller.java:21)
-# Warning: Reflection method java.lang.Class.getDeclaredMethod invoked at ReflectionCaller.main(ReflectionCaller.java:22)
-# Warning: Aborting stand-alone image build due to reflection use without configuration.
-# Warning: Use -H:+ReportExceptionStackTraces to print stacktrace of underlying exception
-#
 ${GRAALVM_HOME}/bin/native-image --no-fallback \
         -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		ReflectionCaller reflectionCallerWithoutFallback
 
 echo "-----------------------------------------------------------------------------------------------------------------"
 
-# create reflect-config as JSON file
-# (absolute path needed when calling java, seems like a bug?)
+echo "3) create reflect-config as JSON file"
 
 mkdir -p ./META-INF/native-image
 
 # create META-INF/native-image/reflect-config.json (note: "output-dir")
+# (absolute path needed when calling java, seems like a bug?)
 ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./META-INF/native-image \
         ReflectionCaller StringManipulator reverse "hello"
 
 # ... and then append to it in the second run (note: "merge-dir")
+# (absolute path needed when calling java, seems like a bug?)
 ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-merge-dir=./META-INF/native-image  \
         ReflectionCaller StringManipulator capitalize "world"
 

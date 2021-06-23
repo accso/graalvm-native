@@ -3,6 +3,8 @@ TARGET=./target
 
 which java
 
-time ${TARGET}/printPropertiesWithBuildTime    -Dmy.run.time.flag=true | grep -i flag
+echo "1) should show only the my.runtime.flag set to true"
+time ${TARGET}/printProperties           -Dmy.runtime.flag=true | grep -i flag
 
-time ${TARGET}/printPropertiesWithoutBuildTime -Dmy.run.time.flag=true | grep -i flag
+echo "2) should show both the my.buildtime.flag and the my.runtime.flag set to true"
+time ${TARGET}/printProperties-buildtime -Dmy.runtime.flag=true | grep -i flag

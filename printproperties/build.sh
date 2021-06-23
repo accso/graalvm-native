@@ -14,16 +14,20 @@ pushd ${TARGET} >/dev/null
 
 # -----------------------------------------------------------------------------------------------------------------
 
-# create native-image with flag set at build time
+echo "1) create native-image, set a build-time property with -D"
+
 ${GRAALVM_HOME}/bin/native-image --no-fallback \
+        -Dmy.buildtime.flag=true \
         -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
-		PrintProperties printPropertiesWithBuildTime -Dmy.build.time.flag=true 
+		PrintProperties printProperties 
 
 # -----------------------------------------------------------------------------------------------------------------
 
-# create native-image without any flag set at build time
+echo "2) create native image, same build-time property but this time initializing *all* classes at build time"
+
 ${GRAALVM_HOME}/bin/native-image --no-fallback \
+        --initialize-at-build-time -Dmy.buildtime.flag=true \
         -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
-		PrintProperties printPropertiesWithoutBuildTime
+		PrintProperties printProperties-buildtime \
 
 popd >/dev/null
