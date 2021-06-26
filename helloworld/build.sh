@@ -16,7 +16,7 @@ pushd ${TARGET} >/dev/null
 
 # create native-image
 ${GRAALVM_HOME}/bin/native-image --no-fallback \
-        -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
+        -H:+PrintAnalysisCallTree -H:+PrintAnalysisStatistics -H:+ReportExceptionStackTraces \
         HelloWorld helloworld
 
 # -----------------------------------------------------------------------------------------------------------------
