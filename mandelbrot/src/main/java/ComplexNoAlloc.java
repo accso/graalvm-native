@@ -8,22 +8,23 @@ class ComplexNoAlloc {
 
     public ComplexNoAlloc square() {
         double oldx = x;
-	    x = x * x - y * y;
-	    y = y * oldx + oldx * y;
-	    return this;
+        x = x * x - y * y;
+        y = y * oldx + oldx * y;
+        return this;
     }
 
     public ComplexNoAlloc multiply(ComplexNoAlloc other) {
         double oldx = this.x;
-	    this.x = this.x * other.x - this.y * other.y;
-	    this.y = this.y * other.x + oldx * other.y;
-	    return this;
+	double oldxOther = other.x;
+        this.x = this.x * other.x - this.y * other.y;
+        this.y = this.y * oldxOther + oldx * other.y;
+        return this;
     }
 
     public ComplexNoAlloc add(ComplexNoAlloc other) {
-	    this.x = this.x + other.x;
-	    this.y = this.y + other.y;
-	    return this;
+        this.x = this.x + other.x;
+        this.y = this.y + other.y;
+        return this;
     }
 
     public double magnitude() {
