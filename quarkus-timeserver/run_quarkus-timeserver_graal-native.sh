@@ -1,1 +1,1 @@
-time ./target/timeserver-1.0.0-SNAPSHOT-runner
+./target/timeserver-1.0.0-SNAPSHOT-runner

@@ -1,0 +1,1 @@
+./target/spring-boot-greetingserver

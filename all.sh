@@ -15,7 +15,7 @@ all() {
 
 ./showversion.sh
 
-for dir in helloworld filefinder mandelbrot printproperties reflection resource quarkus-timeserver staticinit dynamicproxy exceptions;
+for dir in helloworld filefinder mandelbrot printproperties reflection resource quarkus-timeserver staticinit dynamicproxy exceptions spring-boot-greetingserver;
 do
     all
 done
