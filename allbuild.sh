@@ -13,7 +13,7 @@ all() {
     echo " "
 }
 
-for dir in helloworld filefinder mandelbrot printproperties reflection resource quarkus-timeserver staticinit dynamicproxy exceptions spring-boot-greetingserver;
+for dir in helloworld filefinder mandelbrot printproperties reflection resource quarkus-timeserver staticinit dynamicproxy exceptions spring-boot-greetingserver junit-native shared-library;
 do
     all
 done
