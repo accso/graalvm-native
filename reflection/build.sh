@@ -17,6 +17,7 @@ pushd ${TARGET} >/dev/null
 echo "-----------------------------------------------------------------------------------------------------------------"
 
 echo "1) create native-image with fallback by default (might want to use --force-fallback)"
+echo "   Shows compiler warnings and message 'Aborting stand-alone image build due to reflection use without configuration.'"
 
 # Compiler Warnings as follows:
 # Warning: Reflection method java.lang.Class.forName invoked at ReflectionCaller.main(ReflectionCaller.java:21)

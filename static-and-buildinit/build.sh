@@ -21,7 +21,8 @@ ${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \
          -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		 StaticBuildInit static-build-init
 
-echo ""
+echo "---------------------------------------------------------------------------------------"
+
 echo "2) create native-image, using explicit initialization at runtime"
 
 ${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \
@@ -30,7 +31,8 @@ ${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \
 		 --initialize-at-run-time=StaticBuildInit \
 		 StaticBuildInit static-build-init_runtime
 
-echo ""
+echo "---------------------------------------------------------------------------------------"
+
 echo "3) create native-image, using explicit initialization at buildtime"
 
 ${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \

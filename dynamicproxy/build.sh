@@ -17,6 +17,7 @@ pushd ${TARGET} >/dev/null
 echo "---------------------------------------------------------------------------------------"
 
 echo "1) create native-image with a fallback (might want to enforce with --force-fallback)"
+echo "   Shows compiler warnings and message 'Aborting stand-alone image build due to reflection use without configuration.'"
 
 # Compiler Warnings as follows:
 # Warning: Reflection method java.lang.Class.getDeclaredConstructor invoked at MyProxyHandler.<init>(MyProxyHandler.java:18)
@@ -42,8 +43,8 @@ echo "3) create proxy-config as JSON file"
 
 mkdir -p ./META-INF/native-image
 
-# create META-INF/native-image/proxy-config.json (note: "output-dir")
-# (absolute path needed when calling java, seems like a bug?)
+# create META-INF/native-image/proxy-config.json in 'output-dir'
+# (absolute path needed here when calling java, seems like a bug?)
 ${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./META-INF/native-image DynamicProxyMain
 
 # create native-image with explicit proxy configuration
