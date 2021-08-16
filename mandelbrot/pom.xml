@@ -27,14 +27,15 @@
   </dependencies>
 
     <profiles>
-        <!-- ######################################################################################################### 
-		
-		Profiles for the app which creates Mandelbrot only in memory (without creating any image files)
-		
-		-->
 
-        <!-- This is the profile for running the JIT version of the app.
-             $ mvn clean package exec:exec -PJAVA_inMemory
+<!-- ######################################################################################################### 
+
+Profiles for the app which creates Mandelbrot only in memory (without creating any image files)
+
+######################################################################################################### -->
+
+        <!-- This is the profile for creating the Graal JVM mode version of the app.
+             $ mvn clean package -PJAVA_inMemory
         -->
         <profile>
             <id>JAVA_inMemory</id>
@@ -57,7 +58,7 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                                <archive>
+                            <archive>
                                 <manifest>
                                     <!-- Specify the main class -->
                                     <mainClass>${app.inMemory.main.class}</mainClass>
@@ -92,8 +93,8 @@
             </build>
         </profile>
 
-        <!-- This is the profile for generating the native image.
-             $ mvn clean package exec:exec -PNATIVE_IMAGE_inMemory
+        <!-- This is the profile for generating the GraalVM native image.
+             $ mvn clean package -PNATIVE_IMAGE_inMemory
         -->
         <profile>
             <id>NATIVE_IMAGE_inMemory</id>
@@ -116,7 +117,7 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                                <archive>
+                            <archive>
                                 <manifest>
                                     <!-- Specify the main class -->
                                     <mainClass>${app.inMemory.main.class}</mainClass>
@@ -165,16 +166,17 @@
             </build>
         </profile>
 
-        <!-- ######################################################################################################### 
-		
-		Profiles for the app which creates MandelbrotToPNG (creating a PNG file)
-		Note: Native-Image can be compiled but dies with a runtime error (as awt not available at runtime).
-		Excepted to be fixed with a newer GraalVM version, potentially with version 20.3.
-		
-		-->
 
-        <!-- This is the profile for running the JIT version of the app.
-             $ mvn clean package exec:exec -PJAVA_toPNG
+<!-- ######################################################################################################### 
+
+Profiles for the app which creates MandelbrotToPNG (creating a PNG file)
+Note: Native-Image can be compiled but dies with a runtime error (as awt not available at runtime).
+Excepted to be fixed with a newer GraalVM version, potentially with version 20.3.
+
+######################################################################################################### -->
+
+        <!-- This is the profile for creating the Graal JVM mode version of the app.
+             $ mvn clean package -PJAVA_toPNG
         -->
         <profile>
             <id>JAVA_toPNG</id>
@@ -197,7 +199,7 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                                <archive>
+                            <archive>
                                 <manifest>
                                     <!-- Specify the main class -->
                                     <mainClass>${app.toPNG.main.class}</mainClass>
@@ -232,8 +234,8 @@
             </build>
         </profile>
 
-        <!-- This is the profile for generating the native image.
-             $ mvn clean package exec:exec -PNATIVE_IMAGE_toPNG
+        <!-- This is the profile for generating the Graal native image.
+             $ mvn clean package -PNATIVE_IMAGE_toPNG
         -->
         <profile>
             <id>NATIVE_IMAGE_toPNG</id>
@@ -256,7 +258,7 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                                <archive>
+							<archive>
                                 <manifest>
                                     <!-- Specify the main class -->
                                     <mainClass>${app.toPNG.main.class}</mainClass>
@@ -273,7 +275,44 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- Native Image -->
+					<!-- Need to exec Java with an agent once so that jni-config.json is created 
+					     and can be then used for native-image build -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+						<configuration>
+						    <executable>java</executable>
+							<arguments>
+								<argument>-agentlib:native-image-agent=config-output-dir=${project.build.directory}/META-INF/native-image</argument>
+								<argument>-classpath</argument>
+                                <classpath/>
+   							    <argument>MandelbrotToPNGFile</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+                    <!-- Native Image, now using the jni-config.json - needed because otherwise a runtime error is thrown as follows:
+					  	 Exception in thread "main" java.lang.NoSuchFieldError: java.awt.image.ColorModel.pData
+							at com.oracle.svm.jni.functions.JNIFunctions$Support.getFieldID(JNIFunctions.java:1125)
+							at com.oracle.svm.jni.functions.JNIFunctions.GetFieldID(JNIFunctions.java:429)
+							at java.awt.image.ColorModel.initIDs(ColorModel.java)
+							at java.awt.image.ColorModel.<clinit>(ColorModel.java:220)
+							at com.oracle.svm.core.classinitialization.ClassInitializationInfo.invokeClassInitializer(ClassInitializationInfo.java:375)
+							at com.oracle.svm.core.classinitialization.ClassInitializationInfo.initialize(ClassInitializationInfo.java:295)
+							at java.awt.image.BufferedImage.<clinit>(BufferedImage.java:287)
+							at com.oracle.svm.core.classinitialization.ClassInitializationInfo.invokeClassInitializer(ClassInitializationInfo.java:375)
+							at com.oracle.svm.core.classinitialization.ClassInitializationInfo.initialize(ClassInitializationInfo.java:295)
+							at MandelbrotToPNGFile.createMandelbrotImage(MandelbrotToPNGFile.java:28)
+							at MandelbrotToPNGFile.main(MandelbrotToPNGFile.java:24)
+					-->
                     <plugin>
                         <groupId>org.graalvm.nativeimage</groupId>
                         <artifactId>native-image-maven-plugin</artifactId>
@@ -297,7 +336,7 @@
                                             in order to build the image
                             -->
                             <buildArgs>
-                                --no-server --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces 
+                                --no-server --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces -H:JNIConfigurationFiles=${project.build.directory}/META-INF/native-image/jni-config.json -H:+PrintJNIMethods
                             </buildArgs>
                         </configuration>
                     </plugin>
