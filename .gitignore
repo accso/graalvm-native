@@ -1,2 +1,6 @@
 log/
 switch*.sh
+
+# Visual Studio Code
+.vscode
+.factorypath
