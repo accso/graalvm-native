@@ -16,7 +16,7 @@ pushd ${TARGET} >/dev/null
 
 echo "1) create native-image, using default initialization"
 
-${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \
+${GRAALVM_HOME}/bin/native-image \
          --no-fallback \
          -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		 StaticBuildInit static-build-init
@@ -25,7 +25,7 @@ echo "--------------------------------------------------------------------------
 
 echo "2) create native-image, using explicit initialization at runtime"
 
-${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \
+${GRAALVM_HOME}/bin/native-image \
          --no-fallback \
          -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		 --initialize-at-run-time=StaticBuildInit \
@@ -35,7 +35,7 @@ echo "--------------------------------------------------------------------------
 
 echo "3) create native-image, using explicit initialization at buildtime"
 
-${GRAALVM_HOME}/bin/native-image -Dcustom.property=buildtime \
+${GRAALVM_HOME}/bin/native-image \
          --no-fallback \
          -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces \
 		 --initialize-at-build-time=StaticBuildInit \
