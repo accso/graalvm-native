@@ -1,4 +1,5 @@
 which java
+java -version
 
 echo "1) Running the native image, named 'static-build-init', built with default compiler/linker settings"
 echo "   Executable is run twice, sleeping 5 seconds in between. The two outputs have to be different"

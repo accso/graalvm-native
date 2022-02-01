@@ -2,6 +2,7 @@ MAX=20
 if [ "$1" != "" ]; then MAX=$1; fi
 
 which java
+java -version
 
 function runinloop() 
 {

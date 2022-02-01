@@ -8,6 +8,7 @@ then
 fi
 
 which java
+java -version
 
 time java -cp target FileFinder ${DIR} -name ${PATTERN}
 time ./target/filefinder        ${DIR} -name ${PATTERN}

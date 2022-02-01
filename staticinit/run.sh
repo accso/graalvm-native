@@ -1,4 +1,5 @@
 which java
+java -version
 
 echo "1) Running in JVM mode with custom.property set to \"runtime\"..."
 time java -Dcustom.property=runtime -cp target StaticInitialization

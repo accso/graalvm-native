@@ -2,6 +2,7 @@ SRC=./src
 TARGET=./target
 
 which java
+java -version
 
 # -----------------------------------------------------------------------------------------------------------------
 # creates Mandelbrot only in memory (without creating any image files)

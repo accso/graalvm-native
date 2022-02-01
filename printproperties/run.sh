@@ -2,6 +2,7 @@ SRC=./src
 TARGET=./target
 
 which java
+java -version
 
 echo "1) should show only the my.runtime.flag set to true"
 time ${TARGET}/printProperties           -Dmy.runtime.flag=true | grep -i flag

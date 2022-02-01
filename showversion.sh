@@ -1,4 +1,5 @@
 which java
+java -version
 
 echo Graal Version:
 ${GRAALVM_HOME}/bin/java --version
