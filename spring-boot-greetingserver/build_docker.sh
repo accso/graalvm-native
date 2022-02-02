@@ -13,3 +13,5 @@ mkdir -p ${TARGET}
 ./mvnw package -Pjvm
 
 ./mvnw package -Pnative
+
+./mvnw spring-boot:build-image
