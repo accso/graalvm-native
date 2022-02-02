@@ -7,8 +7,11 @@
   <version>1.0.0-SNAPSHOT</version>
   
   <properties>
+    <java.version>17</java.version>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<graalvm.version>21.1.0</graalvm.version>
+	<graalvm.version>22.0.0.2</graalvm.version>
+	<native.maven.plugin.version>0.9.9</native.maven.plugin.version>
+
 	<app.main.class>ResourceLoader</app.main.class>
 	<exe.file.name>resourceloader</exe.file.name>
   </properties>
@@ -35,8 +38,8 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.8.0</version>
                         <configuration>
-                            <source>11</source>
-                            <target>11</target>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                         </configuration>
                     </plugin>
                     <!-- Package -->
@@ -94,8 +97,8 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.8.0</version>
                         <configuration>
-                            <source>11</source>
-                            <target>11</target>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                         </configuration>
                     </plugin>
                     <!-- Package -->
@@ -123,18 +126,21 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <!-- Native Image -->
                     <plugin>
-                        <groupId>org.graalvm.nativeimage</groupId>
-                        <artifactId>native-image-maven-plugin</artifactId>
-                        <version>${graalvm.version}</version>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native.maven.plugin.version}</version>
+                        <extensions>true</extensions>
                         <executions>
-                            <execution>
-                                <goals>
-                                    <goal>native-image</goal>
-                                </goals>
-                                <phase>package</phase>
-                            </execution>
+                        <execution>
+                            <id>build-native</id>
+                            <goals>
+                            <goal>build</goal>
+                            </goals>
+                            <phase>package</phase>
+                        </execution>
                         </executions>
                         <configuration>
                             <!-- Set this to true if you need to switch this off -->
@@ -143,11 +149,13 @@
                             <imageName>${exe.file.name}</imageName>
                             <!-- Set any parameters we need to pass to the native-image tool.
                                 no-fallback : create a native image that doesn't fall back to the JVM
-                                no-server : don't start a build server, which you then just need to shut down,
-                                            in order to build the image
                             -->
                             <buildArgs>
-                                --no-fallback --no-server -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces -H:ResourceConfigurationFiles=META-INF/native-image/resource-config.json 
+ 							    <buildArg>--no-fallback</buildArg>
+ 							    <buildArg>-H:+PrintAnalysisCallTree</buildArg>
+ 							    <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+ 							    <buildArg>-H:ResourceConfigurationFiles=META-INF/native-image/resource-config.json</buildArg>
+                                <buildArg>--report-unsupported-elements-at-runtime</buildArg>
                             </buildArgs>
                         </configuration>
                     </plugin>

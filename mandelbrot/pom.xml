@@ -7,8 +7,10 @@
   <version>1.0.0-SNAPSHOT</version>
   
   <properties>
+    <java.version>17</java.version>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<graalvm.version>21.1.0</graalvm.version>
+	<graalvm.version>22.0.0.2</graalvm.version>
+	<native.maven.plugin.version>0.9.9</native.maven.plugin.version>
 	
 	<app.inMemory.main.class>MandelbrotInMemory</app.inMemory.main.class>
 	<exe.inMemory.file.name>mandelbrotInMemory</exe.inMemory.file.name>
@@ -30,6 +32,8 @@
 
 <!-- ######################################################################################################### 
 
+InMemory
+
 Profiles for the app which creates Mandelbrot only in memory (without creating any image files)
 
 ######################################################################################################### -->
@@ -46,8 +50,8 @@ Profiles for the app which creates Mandelbrot only in memory (without creating a
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.8.0</version>
                         <configuration>
-                            <source>11</source>
-                            <target>11</target>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                         </configuration>
                     </plugin>
                     <!-- Package -->
@@ -105,8 +109,8 @@ Profiles for the app which creates Mandelbrot only in memory (without creating a
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.8.0</version>
                         <configuration>
-                            <source>11</source>
-                            <target>11</target>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                         </configuration>
                     </plugin>
                     <!-- Package -->
@@ -136,29 +140,30 @@ Profiles for the app which creates Mandelbrot only in memory (without creating a
                     </plugin>
                     <!-- Native Image -->
                     <plugin>
-                        <groupId>org.graalvm.nativeimage</groupId>
-                        <artifactId>native-image-maven-plugin</artifactId>
-                        <version>${graalvm.version}</version>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native.maven.plugin.version}</version>
+                        <extensions>true</extensions>
                         <executions>
-                            <execution>
-                                <goals>
-                                    <goal>native-image</goal>
-                                </goals>
-                                <phase>package</phase>
-                            </execution>
+                        <execution>
+                            <id>build-native</id>
+                            <goals>
+                            <goal>build</goal>
+                            </goals>
+                            <phase>package</phase>
+                        </execution>
                         </executions>
                         <configuration>
                             <!-- Set this to true if you need to switch this off -->
                             <skip>false</skip>
                             <!-- The output name for the executable -->
                             <imageName>${exe.inMemory.file.name}</imageName>
-                            <!-- Set any parameters we need to pass to the native-image tool.
-                                no-fallback : create a native image that doesn't fall back to the JVM
-                                no-server : don't start a build server, which you then just need to shut down,
-                                            in order to build the image
-                            -->
+                            <mainClass>${app.inMemory.main.class}</mainClass>
                             <buildArgs>
-                                --no-server --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces 
+                                <!-- With Enterprise you can use the G1GC -->
+                                <!--buildArg>- -gc=G1</buildArg-->
+                                <buildArg>--no-fallback</buildArg>
+                                <buildArg>--report-unsupported-elements-at-runtime</buildArg>
                             </buildArgs>
                         </configuration>
                     </plugin>
@@ -168,6 +173,8 @@ Profiles for the app which creates Mandelbrot only in memory (without creating a
 
 
 <!-- ######################################################################################################### 
+
+PNG file
 
 Profiles for the app which creates MandelbrotToPNG (creating a PNG file)
 Note: Native-Image can be compiled but dies with a runtime error (as awt not available at runtime).
@@ -187,8 +194,8 @@ Excepted to be fixed with a newer GraalVM version, potentially with version 20.3
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.8.0</version>
                         <configuration>
-                            <source>11</source>
-                            <target>11</target>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                         </configuration>
                     </plugin>
                     <!-- Package -->
@@ -246,8 +253,8 @@ Excepted to be fixed with a newer GraalVM version, potentially with version 20.3
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.8.0</version>
                         <configuration>
-                            <source>11</source>
-                            <target>11</target>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                         </configuration>
                     </plugin>
                     <!-- Package -->
@@ -314,16 +321,18 @@ Excepted to be fixed with a newer GraalVM version, potentially with version 20.3
 							at MandelbrotToPNGFile.main(MandelbrotToPNGFile.java:24)
 					-->
                     <plugin>
-                        <groupId>org.graalvm.nativeimage</groupId>
-                        <artifactId>native-image-maven-plugin</artifactId>
-                        <version>${graalvm.version}</version>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native.maven.plugin.version}</version>
+                        <extensions>true</extensions>
                         <executions>
-                            <execution>
-                                <goals>
-                                    <goal>native-image</goal>
-                                </goals>
-                                <phase>package</phase>
-                            </execution>
+                        <execution>
+                            <id>build-native</id>
+                            <goals>
+                            <goal>build</goal>
+                            </goals>
+                            <phase>package</phase>
+                        </execution>
                         </executions>
                         <configuration>
                             <!-- Set this to true if you need to switch this off -->
@@ -332,11 +341,16 @@ Excepted to be fixed with a newer GraalVM version, potentially with version 20.3
                             <imageName>${exe.toPNG.file.name}</imageName>
                             <!-- Set any parameters we need to pass to the native-image tool.
                                 no-fallback : create a native image that doesn't fall back to the JVM
-                                no-server : don't start a build server, which you then just need to shut down,
-                                            in order to build the image
                             -->
                             <buildArgs>
-                                --no-server --no-fallback -H:+PrintAnalysisCallTree -H:+ReportExceptionStackTraces -H:JNIConfigurationFiles=${project.build.directory}/META-INF/native-image/jni-config.json -H:+PrintJNIMethods
+                                <!-- With Enterprise you can use the G1GC -->
+                                <!--buildArg>- -gc=G1</buildArg-->
+                                <buildArg>--no-fallback</buildArg>
+                                <buildArg>-H:+PrintAnalysisCallTree</buildArg>
+                                <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                                <buildArg>-H:JNIConfigurationFiles=${project.build.directory}/META-INF/native-image/jni-config.json</buildArg>
+                                <buildArg>-H:+PrintJNIMethods</buildArg>
+                                <buildArg>--report-unsupported-elements-at-runtime</buildArg>
                             </buildArgs>
                         </configuration>
                     </plugin>
