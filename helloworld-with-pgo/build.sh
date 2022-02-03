@@ -24,7 +24,9 @@ ${GRAALVM_HOME}/bin/native-image --pgo-instrument \
 
 # -----------------------------------------------------------------------------------------------------------------
 
-echo "2) run binary to produce the pgo profile (result is 'profile.iprof')"
+rm -f default.iprof
+
+echo "2) run binary to produce the pgo profile"
 echo "   shows an error, if build step above was not run with a Graal Enterprise Edition (message './helloworld-pgo-instrumented: No such file or directory')"
 ./helloworld-pgo-instrumented
 
