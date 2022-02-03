@@ -2,16 +2,10 @@ factor=4
 
 echo "---------------------------------------------------------------------------------------"
 
-./run1_toPNGFile_graal-jvm.sh $factor
+./run_toPNGFile_graal-jvm.sh $factor
 
 echo "---------------------------------------------------------------------------------------"
 
-./run2_toPNGFile_graal-native.sh $factor
+./run_toPNGFile_graal-native.sh $factor
 
 echo "---------------------------------------------------------------------------------------"
-
-./run3-loop_in-memory_graal-jvm.sh
-
-echo "---------------------------------------------------------------------------------------"
-
-./run4-loop_in-memory_graal-native.sh
